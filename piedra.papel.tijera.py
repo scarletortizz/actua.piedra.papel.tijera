@@ -1,8 +1,12 @@
 import random
 
+
 opciones = ["piedra", "papel", "tijera"]
+
+
 def limpiar():
-    print(" " * 50)
+    print("\n" * 50)
+
 
 def resultado(j1, j2):
     if j1 == j2:
@@ -13,9 +17,10 @@ def resultado(j1, j2):
         return "Jugador 1"
     return "Jugador 2"
 
+
 def reglas():
     limpiar()
-    print("--- Reglas ---")
+    print("\n--- Reglas ---")
     print("Piedra rompe tijera")
     print("Tijera corta papel")
     print("Papel cubre piedra\n")
@@ -37,27 +42,29 @@ def registrar(n1, n2, res, estadisticas, historial):
 
     historial.append({"jugador1": n1, "jugador2": n2, "resultado": res})
 
+
 def mostrar_stats(estadisticas, historial, total_partidas):
     limpiar()
     if total_partidas == 0:
-        print("No hay estadísticas aún.\n")
+        print("\nNo hay estadísticas aún.\n")
         return
-    print("--- Estadísticas ---Partidas jugadas: {total_partidas}")
+    print(f"\n--- Estadísticas ---\nPartidas jugadas: {total_partidas}")
     for h in historial:
-        print("{['jugador1'] vs ['jugador2'] → ['resultado']}")
+        print("{h['jugador1']} vs {h['jugador2']} → {h['resultado']}")
     print("Resumen por jugador:")
     for j, d in estadisticas.items():
-        print("{j}: {d['ganadas']} ganadas, {d['perdidas']} perdidas, {d['empates']} empates")
+        print(f"{j}: {d['ganadas']} ganadas, {d['perdidas']} perdidas, {d['empates']} empates")
     print("")
 
+
 def jugar_ronda(n1, n2, contra_pc, estadisticas, historial):
-    jug1 = input("{n1}, elige piedra, papel o tijera: ").lower()
+    jug1 = input(f"{n1}, elige piedra, papel o tijera: ").lower()
     while jug1 not in opciones:
         jug1 = input("Opción inválida. Intenta de nuevo: ").lower()
 
     if contra_pc:
         jug2 = random.choice(opciones)
-        print("{n2} eligió: {jug2}")
+        print(f"{n2} eligió: {jug2}")
     else:
         limpiar()
         jug2 = input(f"{n2}, elige piedra, papel o tijera: ").lower()
@@ -75,7 +82,7 @@ def jugar_ronda(n1, n2, contra_pc, estadisticas, historial):
 
 def menu_juego(estadisticas, historial, total_partidas):
     limpiar()
-    print("--- Modos ---")
+    print("\n--- Modos ---")
     print("1. Contra computadora")
     print("2. Multijugador")
     print("3. Volver")
@@ -100,13 +107,14 @@ def menu_juego(estadisticas, historial, total_partidas):
     return total_partidas
 
 
+
 estadisticas = {}
 historial = []
 total_partidas = 0
 
 while True:
     limpiar()
-    print("=== Menú Principal ===")
+    print("\n=== Menú Principal ===")
     print("1. Jugar")
     print("2. Reglas")
     print("3. Estadísticas")
@@ -127,5 +135,7 @@ while True:
     else:
         print("Opción inválida.")
         input("Presiona Enter para volver...")
+
+
 
 
