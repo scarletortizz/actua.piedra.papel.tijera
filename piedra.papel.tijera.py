@@ -1,29 +1,26 @@
 import random
 
-
 opciones = ["piedra", "papel", "tijera"]
 
-
 def limpiar():
-    print("\n" * 50)
+    print(" " * 50)
 
-
-def resultado(j1, j2):
+def resultado(j1, j2, n1, n2):
     if j1 == j2:
         return "Empate"
     if (j1 == "piedra" and j2 == "tijera") or \
        (j1 == "tijera" and j2 == "papel") or \
        (j1 == "papel" and j2 == "piedra"):
-        return "Jugador 1"
-    return "Jugador 2"
-
+        return n1
+    return n2
 
 def reglas():
     limpiar()
-    print("\n--- Reglas ---")
+    print("--- Reglas ---")
     print("Piedra rompe tijera")
     print("Tijera corta papel")
-    print("Papel cubre piedra\n")
+    print("Papel cubre piedra")
+
 
 def registrar(n1, n2, res, estadisticas, historial):
     for n in [n1, n2]:
@@ -33,29 +30,27 @@ def registrar(n1, n2, res, estadisticas, historial):
     if res == "Empate":
         estadisticas[n1]["empates"] += 1
         estadisticas[n2]["empates"] += 1
-    elif res == "Jugador 1":
+    elif res == n1:
         estadisticas[n1]["ganadas"] += 1
         estadisticas[n2]["perdidas"] += 1
-    else:
+    else:  
         estadisticas[n2]["ganadas"] += 1
         estadisticas[n1]["perdidas"] += 1
 
     historial.append({"jugador1": n1, "jugador2": n2, "resultado": res})
 
-
 def mostrar_stats(estadisticas, historial, total_partidas):
     limpiar()
     if total_partidas == 0:
-        print("\nNo hay estadísticas aún.\n")
+        print("No hay estadísticas aún.")
         return
-    print(f"\n--- Estadísticas ---\nPartidas jugadas: {total_partidas}")
+    print(f"--- Estadísticas --- Partidas jugadas: {total_partidas}")
     for h in historial:
-        print("{h['jugador1']} vs {h['jugador2']} → {h['resultado']}")
+        print(f"{h['jugador1']} vs {h['jugador2']} → {h['resultado']}")
     print("Resumen por jugador:")
     for j, d in estadisticas.items():
         print(f"{j}: {d['ganadas']} ganadas, {d['perdidas']} perdidas, {d['empates']} empates")
     print("")
-
 
 def jugar_ronda(n1, n2, contra_pc, estadisticas, historial):
     jug1 = input(f"{n1}, elige piedra, papel o tijera: ").lower()
@@ -71,18 +66,16 @@ def jugar_ronda(n1, n2, contra_pc, estadisticas, historial):
         while jug2 not in opciones:
             jug2 = input("Opción inválida. Intenta de nuevo: ").lower()
 
-    res = resultado(jug1, jug2)
+    res = resultado(jug1, jug2, n1, n2)
     if res == "Empate":
         print("¡Empate!")
-    elif res == "Jugador 1":
-        print(f"¡Ganó {n1}!")
     else:
-        print(f"¡Ganó {n2}!")
+        print(f"¡Ganó {res}!")
     registrar(n1, n2, res, estadisticas, historial)
 
 def menu_juego(estadisticas, historial, total_partidas):
     limpiar()
-    print("\n--- Modos ---")
+    print("--- Modos ---")
     print("1. Contra computadora")
     print("2. Multijugador")
     print("3. Volver")
@@ -102,11 +95,11 @@ def menu_juego(estadisticas, historial, total_partidas):
         while True:
             jugar_ronda(n1, n2, False, estadisticas, historial)
             total_partidas += 1
+            
+            mostrar_stats(estadisticas, historial, total_partidas)
             if input("¿Otra partida? (s/n): ").lower() != "s":
                 break
     return total_partidas
-
-
 
 estadisticas = {}
 historial = []
@@ -114,7 +107,7 @@ total_partidas = 0
 
 while True:
     limpiar()
-    print("\n=== Menú Principal ===")
+    print("=== Menú Principal ===")
     print("1. Jugar")
     print("2. Reglas")
     print("3. Estadísticas")
@@ -125,17 +118,16 @@ while True:
         total_partidas = menu_juego(estadisticas, historial, total_partidas)
     elif op == "2":
         reglas()
-        input("Presiona Enter para volver...")
+        input("Presiona Enter para volver..")
     elif op == "3":
         mostrar_stats(estadisticas, historial, total_partidas)
         input("Presiona Enter para volver...")
     elif op == "4":
-        print("¡Gracias por jugar!")
+        print("¡Gracias por jugar, vuelva pronto!")
         break
     else:
         print("Opción inválida.")
         input("Presiona Enter para volver...")
-
 
 
 
